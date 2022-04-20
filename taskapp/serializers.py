@@ -17,4 +17,4 @@ class TodoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Todo
-        fields = ('user', 'project', 'label', 'created_at', 'updated_at')
+        fields = ('user', 'project', 'label', 'created_at', 'updated_at', 'is_deleted')

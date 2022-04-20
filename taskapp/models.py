@@ -23,6 +23,7 @@ class Todo(models.Model):
     label = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=False, null=True, blank=True)
+    is_completed = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Project label"
