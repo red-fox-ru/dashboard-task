@@ -8,16 +8,31 @@ from rest_framework.decorators import api_view, action, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from users.models import User
 from .models import Todo, Project
 from .serializers import ProjectSerializer, TodoSerializer
 
 
 class StandardProjectsSetPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 20
+
+    def get_paginated_response(self, data):
+        return Response({
+            'page': self.page.number,
+            'pages': self.page.paginator.num_pages,
+            'results': data
+        })
 
 
 class StandardTodoSetPagination(PageNumberPagination):
     page_size = 20
+
+    def get_paginated_response(self, data):
+        return Response({
+            'page': self.page.number,
+            'pages': self.page.paginator.num_pages,
+            'results': data
+        })
 
 
 class TodoFilter(filters.FilterSet):
@@ -69,7 +84,9 @@ class ProjectListAPI(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        data = request.data
+        # data["users"] = [User.objects.get(int(el)) for el in data["users"]]
+        serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
