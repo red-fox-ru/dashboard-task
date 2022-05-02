@@ -41,7 +41,7 @@ export const ProjectDetails = (id) => async (dispatch) => {
         const {data} = await axios.get(`${url}/api/v1/projects/${id}`)
 
         dispatch({
-            type: PROJECT_DETAILS_REQUEST,
+            type: PROJECT_DETAILS_SUCCESS,
             payload: data
         })
 
@@ -63,7 +63,7 @@ export const deleteProject = (id) => async (dispatch) => {
         })
 
         const {data} = await axios.delete(
-            `${url}/api/v1/projects/${id}/`,
+            `${url}/api/v1/projects/${id}`,
         )
 
         dispatch({
@@ -82,7 +82,8 @@ export const deleteProject = (id) => async (dispatch) => {
 }
 
 
-export const createProject = (project) => async (dispatch) => {
+export const createProject = (title) => async (dispatch) => {
+    const project = {"title": title, "users": []}
     try {
         dispatch({
             type: PROJECT_CREATE_REQUEST

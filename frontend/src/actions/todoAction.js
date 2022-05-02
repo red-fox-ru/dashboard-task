@@ -19,7 +19,6 @@ export const listToDo = () => async (dispatch) => {
         dispatch({type: TODO_LIST_REQUEST})
 
         const {data} = await axios.get(`${url}/api/v1/todo/`)
-
         dispatch({
             type: TODO_LIST_SUCCESS,
             payload: data
@@ -42,7 +41,7 @@ export const ToDoDetails = (id) => async (dispatch) => {
         const {data} = await axios.get(`${url}/api/v1/todo/${id}`)
 
         dispatch({
-            type: TODO_DETAILS_REQUEST,
+            type: TODO_DETAILS_SUCCESS,
             payload: data
         })
 

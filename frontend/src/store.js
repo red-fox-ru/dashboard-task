@@ -12,7 +12,13 @@ import {
     projectListReducer,
     projectUpdateReducer
 } from "./reducers/projectReducer";
-import {todoCreateReducer} from "./reducers/todoReducer";
+import {
+    todoCreateReducer,
+    todoDeleteReducer,
+    todoDetailsReducer,
+    todoListReducer,
+    todoUpdateReducer
+} from "./reducers/todoReducer";
 
 const reducer = combineReducers({
     userDetails: userDetailsReducer,
@@ -26,11 +32,11 @@ const reducer = combineReducers({
     projectDelete: projectDeleteReducer,
     projectUpdate: projectUpdateReducer,
 
-    todoDetails: userDetailsReducer,
+    todoDetails: todoDetailsReducer,
     todoCreate: todoCreateReducer,
-    todoList: userListReducer,
-    todoDelete: userDeleteReducer,
-    todoUpdate: userUpdateReducer,
+    todoList: todoListReducer,
+    todoDelete: todoDeleteReducer,
+    todoUpdate: todoUpdateReducer,
 });
 
 const store = createStore(reducer, applyMiddleware(thunk));

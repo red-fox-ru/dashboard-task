@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {LinkContainer} from 'react-router-bootstrap'
-import {Table, Button, Row, Col, Spinner, InputGroup, FormControl} from 'react-bootstrap'
+import {Table, Button, Row, Col, Spinner, InputGroup, FormControl, Form} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import {createProject, deleteProject, listProject} from "../actions/projectAction";
@@ -43,22 +43,23 @@ const ProjectListScreen = () => {
         <div>
             <Row className='align-items-center'>
                 <Col>
-                    <h1>Products</h1>
+                    <h1>Projects</h1>
                 </Col>
 
                 <Col className='text-right'>
-                    <InputGroup className="mb-1" onSubmit={createProjectHandler}>
-                        <InputGroup.Text id="inputGroup-sizing-sm">Title</InputGroup.Text>
-                        <FormControl
-                            aria-label="Title"
-                            aria-describedby="inputGroup-sizing-default"
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                        <Button type='submit' id="button-addon2">
-                            <i className='fas fa-plus'></i> Create Project
-                        </Button>
-                    </InputGroup>
-
+                    <Form onSubmit={createProjectHandler}>
+                        <InputGroup className="mb-1" >
+                            <InputGroup.Text id="inputGroup-sizing-sm">Title</InputGroup.Text>
+                            <FormControl
+                                aria-label="Title"
+                                aria-describedby="inputGroup-sizing-default"
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <Button type='submit' id="button-addon2">
+                                <i className='fas fa-plus'></i> Create Project
+                            </Button>
+                        </InputGroup>
+                    </Form>
                 </Col>
             </Row>
 
@@ -88,14 +89,15 @@ const ProjectListScreen = () => {
                                 {results.map(project => (
                                     <tr key={project.id}>
                                         <td>{project.id}</td>
-                                        <td>{project.title}</td>
-
                                         <td>
                                             <LinkContainer to={`/projects/${project.id}`}>
                                                 <Button variant='light' className='btn-sm'>
-                                                    <i className='fas fa-edit'></i>
+                                                    {project.title}
                                                 </Button>
                                             </LinkContainer>
+                                        </td>
+                                        <td>
+
 
                                             <Button variant='danger' className='btn-sm'
                                                     onClick={() => deleteHandler(project.id)}>
