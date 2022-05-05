@@ -4,10 +4,10 @@ from users.models import User
 
 
 class Project(models.Model):
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, blank=True)
     description = models.TextField(null=True, blank=True)
     repository = models.URLField(null=True, blank=True)
-    users = models.ManyToManyField(User, blank=True)
+    users = models.ManyToManyField(User, blank=True, null=True)
 
     class Meta:
         verbose_name = "Project"

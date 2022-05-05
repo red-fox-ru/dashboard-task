@@ -1,10 +1,11 @@
 from rest_framework import serializers
-
+from drf_writable_nested import WritableNestedModelSerializer
 from taskapp.models import Project, Todo
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, ProjectUserSerializer
 
 
-class ProjectSerializer(serializers.ModelSerializer):
+class ProjectSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
+    users = ProjectUserSerializer(many=True)
 
     class Meta:
         model = Project
@@ -17,4 +18,4 @@ class TodoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Todo
-        fields = ('user', 'project', 'label', 'created_at', 'updated_at', 'is_deleted')
+        fields = ('id', 'user', 'project', 'label', 'created_at', 'updated_at', 'is_completed')
