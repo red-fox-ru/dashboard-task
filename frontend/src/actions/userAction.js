@@ -15,6 +15,17 @@ import {
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
     USER_UPDATE_FAIL,
+    USER_LOGIN_REQUEST,
+    USER_LOGIN_SUCCESS,
+    USER_LOGIN_FAIL,
+    USER_LOGOUT,
+    USER_DETAILS_RESET,
+    USER_LIST_RESET,
+    USER_REGISTER_REQUEST,
+    USER_REGISTER_SUCCESS,
+    USER_REGISTER_FAIL,
+    USER_PROFILE_REQUEST,
+    USER_PROFILE_SUCCESS, USER_PROFILE_FAIL,
 
 } from '../constants/userConstants'
 
@@ -32,7 +43,7 @@ export const getUserDetails = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(
+        const {data} = await axios.get(
             `${url}/api/v1/users/${id}/`,
             config
         )
@@ -65,7 +76,7 @@ export const listUsers = () => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(
+        const {data} = await axios.get(
             `${url}/api/v1/users/`,
             config
         )
@@ -100,7 +111,7 @@ export const deleteUser = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.delete(
+        const {data} = await axios.delete(
             `${url}/api/v1/users/${id}/`,
             config
         )
@@ -134,7 +145,7 @@ export const updateUser = (user) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(
+        const {data} = await axios.put(
             `${url}/api/v1/users/${user.id}/`,
             user,
             config
@@ -159,3 +170,132 @@ export const updateUser = (user) => async (dispatch) => {
         })
     }
 }
+
+export const login = (username, password) => async (dispatch) => {
+    try {
+        dispatch({
+            type: USER_LOGIN_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+
+        const {data} = await axios.post(
+            `${url}/api/login/`,
+            {'username': username, 'password': password},
+            config
+        )
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data
+        })
+
+        localStorage.setItem('userInfo', JSON.stringify(data))
+
+    } catch (error) {
+        dispatch({
+            type: USER_LOGIN_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+export const logout = () => (dispatch) => {
+    localStorage.removeItem('userInfo')
+    dispatch({type: USER_LOGOUT})
+    dispatch({type: USER_DETAILS_RESET})
+    dispatch({type: USER_LIST_RESET})
+}
+
+export const register = (username, firstName, lastName, email, password) => async (dispatch) => {
+    try {
+        dispatch({
+            type: USER_REGISTER_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+        console.log(username, firstName, email, password)
+        const {data} = await axios.post(
+            `${url}/api/registration/`,
+            {'username': username, 'first_name': firstName, 'last_name': lastName, 'email': email, 'password': password},
+            config
+        )
+
+        dispatch({
+            type: USER_REGISTER_SUCCESS,
+            payload: data
+        })
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data
+        })
+
+        localStorage.setItem('userInfo', JSON.stringify(data))
+
+    } catch (error) {
+        dispatch({
+            type: USER_REGISTER_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+export const userProfile = (user) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_PROFILE_REQUEST
+        })
+
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { data } = await axios.put(
+            `${url}/api/v1/users/profile/`,
+            user,
+            config
+        )
+
+        dispatch({
+            type: USER_PROFILE_SUCCESS,
+            payload: data
+        })
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data
+        })
+
+        localStorage.setItem('userInfo', JSON.stringify(data))
+
+    } catch (error) {
+        dispatch({
+            type: USER_PROFILE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+

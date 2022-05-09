@@ -9,5 +9,5 @@ router.register(r'users', views.UserModelViewSet, basename='users')
 urlpatterns = [
     path(r'v1/', include(router.urls)),
     path('login/', views.GetTokenView.as_view(), name='token_obtain_pair'),
-    # path('registration/', RegistrationViewSet.as_view({'post': 'registration'}), name='registration'),
+    path('registration/', views.registration, name='registration'),
 ]

@@ -13,6 +13,8 @@ import ProjectListScreen from "./screens/ProjectListScreen";
 import ProjectScreen from "./screens/ProjectScreen";
 import ToDoListScreen from "./screens/ToDoListScreen";
 import ToDoScreen from "./screens/ToDoScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 function App() {
     return (
@@ -29,6 +31,8 @@ function App() {
                                 <Route path='/projects/:id' element={<ProjectScreen />}/>
                                 <Route path='/todo' element={<ToDoListScreen />}/>
                                 <Route path='/todo/:id' element={<ToDoScreen />}/>
+                                <Route path='/login' element={<LoginScreen />}/>
+                                <Route path='/registration' element={<RegisterScreen />}/>
 
                             </Routes>
                     </BrowserRouter>
