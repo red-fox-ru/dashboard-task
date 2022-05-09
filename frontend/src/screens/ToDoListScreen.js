@@ -5,10 +5,14 @@ import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Paginate from "../components/Paginate";
 import {deleteToDo, listToDo} from "../actions/todoAction";
+import {useNavigate} from "react-router";
 
 const ToDoListScreen = () => {
     const dispatch = useDispatch()
     const {loading, error, results, pages, page} = useSelector(state => state.todoList)
+    const navigate = useNavigate();
+    const {userInfo} = useSelector(state => state.userLogin)
+
 
     const {
         loading: loadingDelete,
@@ -17,8 +21,11 @@ const ToDoListScreen = () => {
     } = useSelector(state => state.todoDelete)
 
     useEffect(() => {
+         if (!userInfo && !userInfo.is_admin) {
+            navigate('/');
+        }
         dispatch(listToDo())
-    }, [dispatch, successDelete])
+    }, [dispatch, successDelete, userInfo])
 
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure you want to delete?')) {

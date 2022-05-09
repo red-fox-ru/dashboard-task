@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import {
     userDeleteReducer,
     userDetailsReducer,
-    userListReducer, userUpdateReducer,
+    userListReducer, userLoginReducer, userRegisterReducer, userUpdateReducer,
 } from "./reducers/userReducer";
 import {
     projectCreateReducer,
@@ -21,6 +21,8 @@ import {
 } from "./reducers/todoReducer";
 
 const reducer = combineReducers({
+    userLogin: userLoginReducer,
+    userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userList: userListReducer,
     userDelete: userDeleteReducer,
@@ -39,6 +41,11 @@ const reducer = combineReducers({
     todoUpdate: todoUpdateReducer,
 });
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const userInfoFromStorage = localStorage.getItem('userInfo') ?
+    JSON.parse(localStorage.getItem('userInfo')) : null
+
+const initialState = {userLogin: {userInfo: userInfoFromStorage},}
+
+const store = createStore(reducer, initialState, applyMiddleware(thunk));
 
 export default store;
