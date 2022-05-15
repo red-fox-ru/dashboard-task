@@ -20,7 +20,13 @@ class UserModelViewSet(mixins.ListModelMixin,
                        viewsets.GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_permissions(self):
+        if self.action in ['destroy']:
+            permission_classes = [permissions.IsAdminUser]
+        else:
+            permission_classes = [permissions.IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
     @action(detail=False, methods=['GET', 'PUT'], name='edit_profile')
     def profile(self, request):
