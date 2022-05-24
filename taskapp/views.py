@@ -83,6 +83,7 @@ class ProjectListAPI(APIView):
         serializer = self.serializer_class(self.project, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @permission_classes([permissions.IsAuthenticated])
     def post(self, request):
         data = request.data
         # data["users"] = [User.objects.get(int(el)) for el in data["users"]]
