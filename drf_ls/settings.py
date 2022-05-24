@@ -29,7 +29,12 @@ INSTALLED_APPS = [
     'taskapp.apps.TaskappConfig',
     'drf_yasg',
     'django_filters',
+    'graphene_django',
 ]
+
+GRAPHENE = {
+    "SCHEMA": "taskapp.schema.schema"
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
