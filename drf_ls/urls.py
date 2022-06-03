@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from graphene_django.views import GraphQLView
 from rest_framework.authtoken import views
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -25,4 +26,5 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0),
          name='schema-swagger-ui'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('graphql/', GraphQLView.as_view(graphiql=True))
 ]
