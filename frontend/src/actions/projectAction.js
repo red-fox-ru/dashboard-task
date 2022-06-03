@@ -39,6 +39,7 @@ export const ProjectDetails = (id) => async (dispatch) => {
         dispatch({type: PROJECT_DETAILS_REQUEST})
 
         const {data} = await axios.get(`${url}/api/v1/projects/${id}`)
+        console.log(data)
 
         dispatch({
             type: PROJECT_DETAILS_SUCCESS,

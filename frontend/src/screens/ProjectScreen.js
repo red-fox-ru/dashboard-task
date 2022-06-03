@@ -15,8 +15,7 @@ const ProjectScreen = () => {
 
     useEffect(() => {
         dispatch(ProjectDetails(id))
-    }, [id, results])
-    console.log(results)
+    }, [dispatch, id, results])
     return (
         <div>
             <Link to='/projects' className='btn btn-light my-3'>Go Back</Link>
@@ -29,7 +28,6 @@ const ProjectScreen = () => {
                             <Row>
                                 <Col md={3}>
                                     <Card>
-                                        {/*<Card.Img variant="top" src="holder.js/100px180"/>*/}
                                         <Card.Body>
                                             <Card.Title>{results.title}</Card.Title>
                                             <Card.Text>
